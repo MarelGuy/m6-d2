@@ -3,18 +3,6 @@ const ArticleModel = require("../schemas/article_schema")
 
 const app = express.Router()
 
-app.post('/', async (req, res, next) => {
-    try {
-        const newArticle = new ArticleModel(req.body)
-
-        const { _id } = await newArticle.save()
-        res.status(200).send("Created!")
-    } catch (err) {
-        console.log(err)
-        next(err)
-    }
-});
-
 app.get('/', async (req, res, next) => {
     try {
         const articles = await ArticleModel.find()
@@ -34,6 +22,18 @@ app.get('/:id', async (req, res, next) => {
             res.status(404).send("Error 404, data not found")
         }
 
+    } catch (err) {
+        console.log(err)
+        next(err)
+    }
+});
+
+app.post('/', async (req, res, next) => {
+    try {
+        const newArticle = new ArticleModel(req.body)
+
+        const { _id } = await newArticle.save()
+        res.status(200).send("Created!")
     } catch (err) {
         console.log(err)
         next(err)
